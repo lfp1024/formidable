@@ -214,7 +214,7 @@ class IncomingForm extends EventEmitter {
       });
 
     return this;
-  }
+  } // parse end ===
 
   writeHeaders(headers) {
     this.headers = headers;
@@ -256,12 +256,12 @@ class IncomingForm extends EventEmitter {
     return this.bytesReceived;
   }
 
-  onPart(part) {
+  onPart(part) {// 如果自己实现了该方法，需要自己操作上传文件的存储
     // this method can be overwritten by the user
     this._handlePart(part);
   }
 
-  _handlePart(part) {
+  _handlePart(part) {  // 内部的处理方式，默认会将文件存储在指定目录
     if (part.originalFilename && typeof part.originalFilename !== 'string') {
       this._error(
         new FormidableError(
@@ -318,7 +318,7 @@ class IncomingForm extends EventEmitter {
     let fileSize = 0;
     const newFilename = this._getNewName(part);
     const filepath = this._joinDirectoryName(newFilename);
-    const file = this._newFile({
+    const file = this._newFile({ // 调用 options 中的 fileWriteStreamHandler 方法
       newFilename,
       filepath,
       originalFilename: part.originalFilename,
